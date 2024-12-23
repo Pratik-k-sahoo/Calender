@@ -35,6 +35,12 @@ function Calender({ currentDate }) {
 		year: currentYear,
 	});
 
+	useEffect(() => {
+		setCurrentMonth(currentDate.getMonth());
+		setCurrentYear(currentDate.getFullYear());
+	}, [currentDate]);
+
+
 	const [searchFilter, setSearchFilter] = useState("");
 
 	const [events, setEvents] = useState([]);
@@ -46,9 +52,28 @@ function Calender({ currentDate }) {
 		startTime: "",
 		endTime: "",
 		description: "",
-    type: "",
+		type: "",
 	});
 	const [edit, setEdit] = useState(false);
+
+  
+  useEffect(() => {
+		setTargetDate({
+			day: currentDate.getDate(),
+			date: new Date(currentYear, currentMonth, currentDate.getDate()),
+			month: currentMonth,
+			year: currentYear,
+		});
+    setEventForm({
+			id: "",
+			title: "",
+			date: new Date(currentYear, currentMonth, currentDate.getDate()),
+			startTime: "",
+			endTime: "",
+			description: "",
+			type: "",
+		});
+	}, [currentMonth, currentYear]);
 
 	const [daysPanel, setDaysPanel] = useState(true);
 	const [addEventsPanel, setAddEventsPanel] = useState(false);
@@ -145,7 +170,7 @@ function Calender({ currentDate }) {
 		}
 	}, [targetDate, events, searchFilter]);
 
-  function exportEventsAsJSON(month, year) {
+	function exportEventsAsJSON(month, year) {
 		const filteredEvents = events.filter((event) => {
 			const eventDate = new Date(event.date);
 			return eventDate.getMonth() === month && eventDate.getFullYear() === year;
@@ -162,7 +187,7 @@ function Calender({ currentDate }) {
 		URL.revokeObjectURL(url);
 	}
 
-  function exportEventsAsCSV(month, year) {
+	function exportEventsAsCSV(month, year) {
 		const filteredEvents = events.filter((event) => {
 			const eventDate = new Date(event.date);
 			return eventDate.getMonth() === month && eventDate.getFullYear() === year;
@@ -190,8 +215,6 @@ function Calender({ currentDate }) {
 		link.click();
 		URL.revokeObjectURL(url);
 	}
-
-
 
 	return (
 		<>
@@ -264,7 +287,7 @@ function Calender({ currentDate }) {
 						exportEventsAsCSV={exportEventsAsCSV}
 						exportEventsAsJSON={exportEventsAsJSON}
 						currentMonth={currentMonth}
-            currentYear={currentYear}
+						currentYear={currentYear}
 					/>
 				</div>
 			</div>
