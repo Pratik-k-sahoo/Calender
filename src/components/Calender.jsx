@@ -252,6 +252,7 @@ function Calender({ currentDate }) {
 								setEventForm={setEventForm}
 								targetDate={targetDate}
 								events={events}
+								setEvents={setEvents}
 							/>
 						</div>
 						<div ref={addEventsPanelRef} className="">

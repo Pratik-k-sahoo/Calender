@@ -10,7 +10,19 @@ const Days = ({
 	setTargetDate,
 	targetDate,
 	events,
+	setEvents,
 }) => {
+	const handleEventDrop = (dragEvent, date) => {
+		const updatedEvents = events.map((event) => {
+			if (event.id === dragEvent.id) {
+				event.date = date;
+			}
+			return event;
+		});
+		localStorage.setItem("events", JSON.stringify(updatedEvents));
+		setEvents(updatedEvents);
+	};
+
 	return (
 		<div
 			className={`grid grid-cols-7 justify-items-center items-center  text-white gap-y-10 mt-6`}
@@ -25,6 +37,14 @@ const Days = ({
 					.keys()
 					.map((day, index) => (
 						<span
+							onDrop={(e) => {
+								e.preventDefault();
+								handleEventDrop(
+									JSON.parse(e.dataTransfer.getData("text")),
+									new Date(currentYear, currentMonth, day + 1)
+								);
+							}}
+							onDragOver={(e) => e.preventDefault()}
 							onClick={() => {
 								setTargetDate({
 									day: day + 1,
@@ -43,7 +63,7 @@ const Days = ({
 							}}
 							className={`${
 								targetDate?.day == day + 1 &&
-                targetDate?.day != currentDate.getDate() &&
+								targetDate?.day != currentDate.getDate() &&
 								targetDate?.month == currentMonth &&
 								targetDate?.year == currentYear
 									? "bg-slate-600 bg-opacity-35"

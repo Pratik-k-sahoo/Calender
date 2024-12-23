@@ -62,6 +62,14 @@ const Events = ({
 
 				return (
 					<div
+            draggable="true"
+            onDragStart={(e) => {
+              e.dataTransfer.setData("text", JSON.stringify(event))
+              console.log(
+								"dragging",
+								JSON.parse(e.dataTransfer.getData("text"))
+							);              
+            }}
 						key={i}
 						className={`flex justify-between w-full p-3 ${
 							event.type === "work"
