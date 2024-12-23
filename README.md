@@ -64,3 +64,6 @@
 ```
 
 5. Open your browser and go to ```http://localhost:5173.```
+
+
+You can access the deployed application here. ```https://calender-dacoid-notion.sipun.online/```
